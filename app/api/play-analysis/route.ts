@@ -1,66 +1,76 @@
-import axios from 'axios';
-import * as cheerio from 'cheerio';
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import * as cheerio from "cheerio";
 
-export const dynamic = 'force-dynamic';
+// --- ta fonction de parsing, inchangée ---
+async function parsePlays(html: string) {
+  const $ = cheerio.load(html);
+  const plays: any[] = [];
 
-interface MatchAction {
-  period: string;
-  time: string;
-  action: string;
+  $(".panel").each((_, panel) => {
+    const periodCaption = $(panel).find("caption").text().trim();
+    const periodMatch = periodCaption.match(/(\d)(st|nd|rd|th)/i);
+   const period = periodMatch ? periodMatch[0].toUpperCase() : "?";
+
+    $(panel)
+      .find("tbody tr")
+      .each((_, tr) => {
+        const tds = $(tr).find("td");
+        const time = $(tds[0]).text().trim();
+        const leftAction = $(tds[1]).text().trim();
+        const rightAction = $(tds[5]).text().trim();
+
+        const action = leftAction || rightAction;
+
+        if (
+          !time ||
+          !action ||
+          time === "--" ||
+          action === "" ||
+          action.match(/^\d+\s+\w+/)
+        ) {
+          return;
+        }
+
+        plays.push({ period, time, action });
+      });
+  });
+
+  const toSeconds = (t: string) => {
+    const [m, s] = t.split(":").map(Number);
+    return m * 60 + s;
+  };
+
+  plays.sort((a, b) => {
+    const pOrder = parseInt(a.period) - parseInt(b.period);
+    if (pOrder !== 0) return pOrder;
+    return toSeconds(a.time) - toSeconds(b.time);
+  });
+
+  return plays;
 }
 
+// --- la route API Next.js ---
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const customUrl = searchParams.get('url');
+    const matchUrl = searchParams.get("url");
 
-    if (!customUrl) {
-      return NextResponse.json({ error: 'Aucun lien fourni.' }, { status: 400 });
+    if (!matchUrl) {
+      return NextResponse.json({ error: "Missing URL" }, { status: 400 });
     }
 
-    const { data } = await axios.get(customUrl);
-    const $ = cheerio.load(data);
+    console.log("🌍 Fetching:", matchUrl);
+    const res = await fetch(matchUrl);
+    const html = await res.text();
 
-    const actions: MatchAction[] = [];
-    let currentPeriod = '1ST';
+    const actions = await parsePlays(html);
+    console.log(`✅ ${actions.length} actions trouvées.`);
 
-    $('table tr').each((_, row) => {
-      const headerText = $(row).text().trim().toUpperCase();
-
-      // Détection claire des périodes (même sans <th>)
-      if (headerText.includes('1ST QUARTER')) currentPeriod = '1ST';
-      else if (headerText.includes('2ND QUARTER')) currentPeriod = '2ND';
-      else if (headerText.includes('3RD QUARTER')) currentPeriod = '3RD';
-      else if (headerText.includes('4TH QUARTER')) currentPeriod = '4TH';
-      else {
-        const cols = $(row).find('td');
-        const time = $(cols[0]).text().trim();
-        const text = $(cols[1]).text().trim();
-
-        if (time && text) {
-          actions.push({
-            period: currentPeriod,
-            time,
-            action: text,
-          });
-        }
-      }
-    });
-
-    // Tri correct : 1ST -> 4TH et ordre chronologique
-    const periodOrder = ['1ST', '2ND', '3RD', '4TH'];
-    const sorted = actions.sort((a, b) => {
-      const diff = periodOrder.indexOf(a.period) - periodOrder.indexOf(b.period);
-      if (diff !== 0) return diff;
-      return a.time.localeCompare(b.time);
-    });
-
-    return NextResponse.json({ actions: sorted });
-  } catch (error: any) {
-    console.error('❌ Erreur scraping:', error.message);
+    return NextResponse.json({ actions });
+  } catch (err) {
+    console.error("❌ Erreur backend:", err);
     return NextResponse.json(
-      { error: 'Erreur lors du scraping', details: error.message },
+      { error: "Scraping failed or bad HTML" },
       { status: 500 }
     );
   }

@@ -11,10 +11,9 @@ export default function VideoHeader({ className = "" }: { className?: string }) 
           playsInline
         />
       </div>
-      <h1 className="text-[1.6rem] font-extrabold text-center mt-8 bg-gradient-to-r from-red-700 to-red-900 bg-clip-text text-transparent">
-  STATS PAR MINUTES
-</h1>
-
+      <h1 className="text-[1.6rem] font-extrabold text-center mt-8 bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+        STATS PAR MINUTES
+      </h1>
     </header>
   );
 }
