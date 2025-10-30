@@ -53,9 +53,14 @@ export default function JadeStats() {
 
   const matchLinks = [
     {
-      name: 'Match du 25 Octobre 2025 🏀',
+      name: 'Salt Lake',
       url: 'https://goconqs.com/sports/womens-basketball/stats/2024-25/western-texas-college/boxscore/5990',
     },
+    //  {
+    //   name: 'Salt Lake',
+    //   url: 'https://goconqs.com/sports/womens-basketball/stats/2024-25/western-texas-college/boxscore/5990',
+    // },
+  
   ];
 
   const handleMatchSelect = (value: string) => setSelectedMatch(value);
@@ -112,23 +117,29 @@ console.log(`🎯 Period détectée pour "${a.period}" → ${periodNum}`);
   };
 
   return (
-       <div className="flex flex-col items-center justify-center min-h-screen p-6 sm:p-12 gap-8 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-       <VideoHeader className="absolute top-0 left-0 w-full" />
+<div className="flex flex-col items-center justify-center min-h-screen p-6 sm:p-12 gap-8 bg-white text-gray-900">
+<VideoHeader className="absolute top-0 left-0 w-full" />
 
       <main className="flex flex-col items-center gap-6 w-full max-w-4xl mt-10">
         {/* Sélection du match */}
-        <Select value={selectedMatch} onValueChange={handleMatchSelect}>
-          <SelectTrigger className="w-full max-w-md">
-            <SelectValue placeholder="Sélectionne un match" />
-          </SelectTrigger>
-          <SelectContent>
-            {matchLinks.map((link) => (
-              <SelectItem key={link.url} value={link.url}>
-                {link.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      <Select value={selectedMatch} onValueChange={handleMatchSelect}>
+  <SelectTrigger className="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-sm text-gray-900">
+    <SelectValue placeholder="Sélectionne un match" />
+  </SelectTrigger>
+  <SelectContent 
+    className="bg-white border border-gray-300 rounded-lg shadow-md text-black w-[var(--radix-select-trigger-width)]"
+  >
+    {matchLinks.map((link) => (
+       <SelectItem
+        key={link.url}
+        value={link.url}
+        className="py-1 px-2 text-sm" // 👈 réduit la hauteur
+      >   {link.name}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
 
         {/* Bouton “Voir Stats” */}
         <Button
@@ -144,7 +155,7 @@ console.log(`🎯 Period détectée pour "${a.period}" → ${periodNum}`);
         ) : actions.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 w-full">
             {[1, 2, 3, 4].map((period) => (
-              <Card key={period}>
+              <Card key={period} className="bg-white rounded-lg shadow-md">
                 <CardContent>
                   <h3 className="text-lg font-bold text-center mt-6 mb-3 text-purple-700">
                     PÉRIODE {period}
