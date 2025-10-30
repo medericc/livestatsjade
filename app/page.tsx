@@ -70,7 +70,7 @@ console.log("📦 Réponse brute du backend:", json);
   .filter((a: MatchAction) => !a.action.toLowerCase().includes('substitution'));
 
       // On convertit pour être compatible avec ton tableau Léna
-    const formatted: MatchAction[] = smithActions.map((a) => {
+const formatted: MatchAction[] = smithActions.map((a: MatchAction) => {
 const p = a.period.toUpperCase();
 const periodNum =
   /1(ST)?/.test(p) ? '1' :

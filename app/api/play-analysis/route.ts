@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import * as cheerio from "cheerio";
+interface Play {
+  period: string;
+  time: string;
+  action: string;
+}
 
 // --- ta fonction de parsing, inchangée ---
 async function parsePlays(html: string) {
   const $ = cheerio.load(html);
-  const plays: any[] = [];
+  const plays: Play[] = [];
+
 
   // 🧱 Parcours explicite des div#period-x
   for (let i = 1; i <= 4; i++) {
