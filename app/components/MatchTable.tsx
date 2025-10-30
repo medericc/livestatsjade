@@ -39,10 +39,11 @@ export default function MatchTable({ data }: MatchTableProps) {
     if (t.includes('GOOD 3PTR')) return { action: 'Tir à 3 pts', statut: '✔️' };
     if (t.includes('MISS 3PTR')) return { action: 'Tir à 3 pts', statut: '❌' };
 
-     // 🏀 Tir à 2 points — tous les GOOD/MISS sans 3PTR = 2 pts
-    if (t.includes('GOOD') && !t.includes('3PT')) return { action: 'Tir à 2 pts', statut: '✔️' };
-    if (t.includes('MISS') && !t.includes('3PT')) return { action: 'Tir à 2 pts', statut: '❌' };
-
+  // ✅ Tir à 2 points : GOOD/MISS sans 3PT ni FT
+  if ((/GOOD|MISS/.test(t)) && !/3PT|FT/.test(t)) {
+    const statut = t.includes('GOOD') ? '✔️' : '❌';
+    return { action: 'Tir à 2 pts', statut };
+  }
     if (t.includes('REBOUND')) return { action: 'Rebond', statut: '✔️' };
     if (t.includes('ASSIST')) return { action: 'Passe décisive', statut: '✔️' };
     if (t.includes('TURNOVER')) return { action: 'Perte de balle', statut: '❌' };

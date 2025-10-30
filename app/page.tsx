@@ -19,6 +19,16 @@ interface MatchAction {
 const actionMapping: Record<string, string> = {
   'good 2pt': 'Tir à 2 pts',
   'miss 2pt': 'Tir à 2 pts',
+  'good layup': 'Tir à 2 pts',
+  'miss layup': 'Tir à 2 pts',
+  'good jumper': 'Tir à 2 pts',
+  'miss jumper': 'Tir à 2 pts',
+  'good dunk': 'Tir à 2 pts',
+  'miss dunk': 'Tir à 2 pts',
+  'good tip': 'Tir à 2 pts',
+  'miss tip': 'Tir à 2 pts',
+  'good hook': 'Tir à 2 pts',
+  'miss hook': 'Tir à 2 pts',
   'good 3pt': 'Tir à 3 pts',
   'miss 3pt': 'Tir à 3 pts',
   'good ft': 'Lancer franc',
@@ -30,6 +40,7 @@ const actionMapping: Record<string, string> = {
   block: 'Contre',
   foul: 'Faute',
 };
+
 
 
 export default function JadeStats() {
