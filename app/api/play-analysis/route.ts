@@ -6,48 +6,46 @@ async function parsePlays(html: string) {
   const $ = cheerio.load(html);
   const plays: any[] = [];
 
-  $(".panel").each((_, panel) => {
-    const periodCaption = $(panel).find("caption").text().trim();
-    const periodMatch = periodCaption.match(/(\d)(st|nd|rd|th)/i);
-   const period = periodMatch ? periodMatch[0].toUpperCase() : "?";
+  // 🧱 Parcours explicite des div#period-x
+  for (let i = 1; i <= 4; i++) {
+    const panel = $(`#period-${i}`);
+    if (!panel.length) continue;
 
-    $(panel)
-      .find("tbody tr")
-      .each((_, tr) => {
-        const tds = $(tr).find("td");
-        const time = $(tds[0]).text().trim();
-        const leftAction = $(tds[1]).text().trim();
-        const rightAction = $(tds[5]).text().trim();
+    const caption = panel.find("caption").text().trim().toUpperCase();
+    console.log(`🎯 Détection: #period-${i} → ${caption || "(vide)"}`);
 
-        const action = leftAction || rightAction;
+    const period = `${i}`; // on se base sur l’ID, fiable à 100 %
 
-        if (
-          !time ||
-          !action ||
-          time === "--" ||
-          action === "" ||
-          action.match(/^\d+\s+\w+/)
-        ) {
-          return;
-        }
+    panel.find("tbody tr").each((_, tr) => {
+      const tds = $(tr).find("td");
+      const time = $(tds[0]).text().trim();
+      const leftAction = $(tds[1]).text().trim();
+      const rightAction = $(tds[5]).text().trim();
+      const action = leftAction || rightAction;
 
-        plays.push({ period, time, action });
-      });
-  });
+      if (!time || !action || time === "--" || action === "") return;
 
+      plays.push({ period, time, action });
+    });
+  }
+
+  // 🧹 Tri
   const toSeconds = (t: string) => {
     const [m, s] = t.split(":").map(Number);
     return m * 60 + s;
   };
-
   plays.sort((a, b) => {
     const pOrder = parseInt(a.period) - parseInt(b.period);
     if (pOrder !== 0) return pOrder;
     return toSeconds(a.time) - toSeconds(b.time);
   });
 
+  console.log("✅ Plays finaux:", plays.slice(0, 10));
+  console.log(`📦 Total: ${plays.length}`);
+
   return plays;
 }
+
 
 // --- la route API Next.js ---
 export async function GET(req: Request) {

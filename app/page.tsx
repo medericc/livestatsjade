@@ -33,7 +33,8 @@ const actionMapping: Record<string, string> = {
 
 
 export default function JadeStats() {
-  const [actions, setActions] = useState<MatchAction[][]>([]);
+  const [actions, setActions] = useState<MatchAction[]>([]);
+
   const [loading, setLoading] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,21 +66,32 @@ console.log("📦 Réponse brute du backend:", json);
 
       // On ne garde que les actions "Smith"
       const smithActions = (json.actions || [])
-        .filter((a: MatchAction) => a.action.toLowerCase().includes('smith'))
+        .filter((a: MatchAction) => a.action.toLowerCase().includes('shorna'))
         // On supprime les substitutions
         .filter((a) => !a.action.toLowerCase().includes('substitution'));
 
       // On convertit pour être compatible avec ton tableau Léna
-      const formatted: MatchAction[][] = smithActions.map((a) => {
-        const periodNum =
-          a.period.includes('1ST') ? '1' :
-          a.period.includes('2ND') ? '2' :
-          a.period.includes('3RD') ? '3' :
-          a.period.includes('4TH') ? '4' : '0';
-        return [periodNum, a.time, a.action, a.success || '1'] as unknown as MatchAction[];
-      });
+    const formatted: MatchAction[] = smithActions.map((a) => {
+const p = a.period.toUpperCase();
+const periodNum =
+  /1(ST)?/.test(p) ? '1' :
+  /2(ND)?/.test(p) ? '2' :
+  /3(RD)?/.test(p) ? '3' :
+  /4(TH)?/.test(p) ? '4' : '0';
+
+console.log(`🎯 Period détectée pour "${a.period}" → ${periodNum}`);
+ return {
+    period: periodNum,
+    time: a.time,
+    action: a.action,
+    success: a.success || '',
+  };
+});
+
 
       setActions(formatted);
+      console.log("🎬 Actions finales (front):", formatted.map(a => `${a.period} | ${a.time} | ${a.action}`).slice(0, 30));
+
     } catch (err) {
       console.error(err);
       setModalMessage('Erreur de récupération des données 😢');
@@ -136,53 +148,42 @@ console.log("📦 Réponse brute du backend:", json);
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {actions
-                        .filter((row: any) => row[0] === `${period}`)
-                        .filter((row: any) => !row[2].toLowerCase().includes('substitution'))
-                        .map((row: any, index) => {
-                      
+                   {actions
+  .filter((row) => row.period === `${period}`)
+  .filter((row) => !row.action.toLowerCase().includes('substitution'))
+  .map((row, index) => {
+    const raw = (row.action || '').toLowerCase();
+    if (raw.includes('sub in') || raw.includes('sub out')) return null;
 
-// 🧠 Nettoyage et simplification du texte brut
-const raw = (row[2] || '').toLowerCase();
-  // 🚫 On ignore les substitutions
-      if (raw.includes('sub in') || raw.includes('sub out')) return null;
+    const cleaned = raw
+      .replace(/by\s+shorna.*$/i, '')
+      .replace(/\s+/g, ' ')
+      .trim();
 
-// On enlève "by smith, destinee" ou autres suffixes similaires
-const cleaned = raw
-  .replace(/by\s+smith.*$/i, '') // enlève "by smith..." à la fin
-  .replace(/\s+/g, ' ') // espaces multiples → simple espace
-  .trim();
+    const foundKey = Object.keys(actionMapping).find((key) => cleaned.includes(key));
+    const displayAction = foundKey ? actionMapping[foundKey] : row.action;
+    const isSuccess = cleaned.includes('good');
+    const isMiss = cleaned.includes('miss');
+    let status = '';
 
-// On cherche le mot-clé correspondant dans la phrase
-let foundKey = Object.keys(actionMapping).find((key) => cleaned.includes(key));
+    if (isSuccess) status = '✔️';
+    else if (isMiss) status = '❌';
+    else if (['turnover', 'foul'].some((k) => cleaned.includes(k))) status = '❌';
+    else status = '✔️';
 
-// Traduction et statut visuel
-const displayAction = foundKey ? actionMapping[foundKey] : row[2];
-const isSuccess = cleaned.includes('good');
-const isMiss = cleaned.includes('miss');
+    return (
+      <TableRow key={index}>
+        <TableCell className="text-center">{row.time}</TableCell>
+        <TableCell className="text-center">{displayAction}</TableCell>
+        <TableCell className="text-center">
+          <span className={status === '✔️' ? 'text-green-500' : 'text-red-500'}>
+            {status}
+          </span>
+        </TableCell>
+      </TableRow>
+    );
+  })}
 
-// Définir le statut
-let status = '';
-if (isSuccess) status = '✔️';
-else if (isMiss) status = '❌';
-else if (['turnover', 'foul'].some((k) => cleaned.includes(k))) status = '❌';
-else status = '✔️';
-
-
-                         
-
-                          return (
-                            <TableRow key={index}>
-                              <TableCell className="text-center">{row[1]}</TableCell>
-                              <TableCell className="text-center">{displayAction}</TableCell>
-                              <TableCell className="text-center">
-                                <span className={status === '✔️' ? 'text-green-500' : 'text-red-500'}>
-                                  {status}
-                                </span>
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })}
                     </TableBody>
                   </Table>
                 </CardContent>

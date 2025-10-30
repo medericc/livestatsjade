@@ -24,7 +24,7 @@ export default function MatchTable({ data }: MatchTableProps) {
   const traduireSmithAction = (texte: string): { action: string; statut: string } | null => {
     const t = texte.toUpperCase();
 
-    if (!t.includes('SMITH')) return null; // On ne garde que les actions de Destinee
+    if (!t.includes('SHORNA')) return null; // On ne garde que les actions de Destinee
 
     if (t.includes('GOOD FT')) return { action: 'Lancer franc', statut: '✔️' };
     if (t.includes('MISS FT')) return { action: 'Lancer franc', statut: '❌' };
