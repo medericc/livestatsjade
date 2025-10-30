@@ -11,8 +11,14 @@ import {
   TableCell,
 } from '@/components/ui/table';
 
+interface RawActionRow extends Array<string> {
+  0: string; // period
+  1: string; // time
+  2: string; // action
+}
+
 interface MatchTableProps {
-  data: any[];
+  data: RawActionRow[];
 }
 
 export default function MatchTable({ data }: MatchTableProps) {
@@ -65,11 +71,11 @@ export default function MatchTable({ data }: MatchTableProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data
-                  .filter((row: any) => row[0] === `${period}`)
-                  .map((row: any, index: number) => {
-                    const texte = (row[2] || '').trim();
-                    const actionSmith = traduireSmithAction(texte);
+                
+                 {data
+                  .filter((row) => row[0] === `${period}`)
+                  .map((row, index) => {
+                    const texte = (row[2] || '').trim();  const actionSmith = traduireSmithAction(texte);
 
                     if (!actionSmith) return null; // On ignore tout sauf SMITH
 

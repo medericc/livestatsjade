@@ -65,10 +65,9 @@ console.log("📦 Réponse brute du backend:", json);
       if (json.error) throw new Error(json.error);
 
       // On ne garde que les actions "Smith"
-      const smithActions = (json.actions || [])
-        .filter((a: MatchAction) => a.action.toLowerCase().includes('shorna'))
-        // On supprime les substitutions
-        .filter((a) => !a.action.toLowerCase().includes('substitution'));
+   const smithActions = (json.actions || [])
+  .filter((a: MatchAction) => a.action.toLowerCase().includes('shorna'))
+  .filter((a: MatchAction) => !a.action.toLowerCase().includes('substitution'));
 
       // On convertit pour être compatible avec ton tableau Léna
     const formatted: MatchAction[] = smithActions.map((a) => {
