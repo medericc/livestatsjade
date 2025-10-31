@@ -1,6 +1,6 @@
 import './globals.css';
 import { Analytics } from "@vercel/analytics/react";
-
+import Head from 'next/head';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -57,6 +57,14 @@ export default function RootLayout({
 }>) {
   return (
      <html lang="fr">
+       <Head>
+        <link rel="icon" href="/favicon.ico" />
+         
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-title" content="Jade LiveStats" />
+        <meta name="theme-color" content="#1e40af" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white`}
       >
