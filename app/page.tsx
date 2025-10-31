@@ -54,7 +54,7 @@ export default function JadeStats() {
   const matchLinks = [
     {
       name: 'Salt Lake',
-      url: 'https://goconqs.com/sports/womens-basketball/stats/2024-25/western-texas-college/boxscore/5990',
+      url: '',
     },
     //  {
     //   name: 'Salt Lake',
@@ -65,56 +65,52 @@ export default function JadeStats() {
 
   const handleMatchSelect = (value: string) => setSelectedMatch(value);
 
-  const handleGenerate = async () => {
-    if (!selectedMatch) {
-      setModalMessage('Sélectionne un match 💜');
-      setIsModalOpen(true);
-      
-      return;
-    }
+ const handleGenerate = async () => {
+  // 💡 Si aucun match sélectionné ou URL vide
+  if (!selectedMatch || selectedMatch.trim() === "") {
+    setModalMessage("Jade s’échauffe 🏀");
+    setIsModalOpen(true);
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/play-analysis?url=${encodeURIComponent(selectedMatch)}`);
-      const json = await res.json();
-console.log("📦 Réponse brute du backend:", json);
-      if (json.error) throw new Error(json.error);
+  setLoading(true);
+  try {
+    const res = await fetch(`/api/play-analysis?url=${encodeURIComponent(selectedMatch)}`);
+    const json = await res.json();
+    console.log("📦 Réponse brute du backend:", json);
+    if (json.error) throw new Error(json.error);
 
-      // On ne garde que les actions "Smith"
-   const smithActions = (json.actions || [])
-  .filter((a: MatchAction) => a.action.toLowerCase().includes('shorna'))
-  .filter((a: MatchAction) => !a.action.toLowerCase().includes('substitution'));
+    // On filtre uniquement les actions de Shorna
+    const smithActions = (json.actions || [])
+      .filter((a: MatchAction) => a.action.toLowerCase().includes('shorna'))
+      .filter((a: MatchAction) => !a.action.toLowerCase().includes('substitution'));
 
-      // On convertit pour être compatible avec ton tableau Léna
-const formatted: MatchAction[] = smithActions.map((a: MatchAction) => {
-const p = a.period.toUpperCase();
-const periodNum =
-  /1(ST)?/.test(p) ? '1' :
-  /2(ND)?/.test(p) ? '2' :
-  /3(RD)?/.test(p) ? '3' :
-  /4(TH)?/.test(p) ? '4' : '0';
+    const formatted: MatchAction[] = smithActions.map((a: MatchAction) => {
+      const p = a.period.toUpperCase();
+      const periodNum =
+        /1(ST)?/.test(p) ? '1' :
+        /2(ND)?/.test(p) ? '2' :
+        /3(RD)?/.test(p) ? '3' :
+        /4(TH)?/.test(p) ? '4' : '0';
 
-console.log(`🎯 Period détectée pour "${a.period}" → ${periodNum}`);
- return {
-    period: periodNum,
-    time: a.time,
-    action: a.action,
-    success: a.success || '',
-  };
-});
+      return {
+        period: periodNum,
+        time: a.time,
+        action: a.action,
+        success: a.success || '',
+      };
+    });
 
+    setActions(formatted);
+  } catch (err) {
+    console.error(err);
+    setModalMessage('Erreur de récupération des données 😢');
+    setIsModalOpen(true);
+  } finally {
+    setLoading(false);
+  }
+};
 
-      setActions(formatted);
-      console.log("🎬 Actions finales (front):", formatted.map(a => `${a.period} | ${a.time} | ${a.action}`).slice(0, 30));
-
-    } catch (err) {
-      console.error(err);
-      setModalMessage('Erreur de récupération des données 😢');
-      setIsModalOpen(true);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
 <div className="flex flex-col items-center justify-center min-h-screen p-6 sm:p-12 gap-8 bg-white text-gray-900">
@@ -214,21 +210,26 @@ console.log(`🎯 Period détectée pour "${a.period}" → ${periodNum}`);
         ) : (
           selectedMatch && (
             <p className="text-gray-500 text-center mt-6">
-              Aucune action trouvée pour Smith 😢
+              Sélectionne un match, maynat !
             </p>
           )
         )}
       </main>
 
       {/* Modal d’erreur */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="w-[80%] max-w-xs rounded-lg shadow-lg bg-white dark:bg-gray-800 p-6">
-          <DialogHeader>
-            <DialogTitle className="text-center mb-4">⚠️ Erreur</DialogTitle>
-            <DialogDescription className="text-center mt-4">{modalMessage}</DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+ <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+  <DialogContent className="w-[85%] max-w-sm rounded-2xl shadow-xl bg-white dark:bg-gray-800 p-8 text-center">
+    <DialogHeader>
+      <DialogTitle className="text-2xl font-bold text-purple-700 mb-3">
+        Patiente 💜
+      </DialogTitle>
+      <DialogDescription className="text-lg text-gray-800 dark:text-gray-200">
+        {modalMessage}
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+
 
       {/* Footer */}
       <footer className="text-sm text-gray-900 mt-8">
