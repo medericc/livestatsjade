@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Head from 'next/head';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ServiceWorkerRegister from './ServiceWorkerRegister'; // 👈 ajoute cette ligne
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,11 +15,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 export const metadata = {
   title: "LiveStats de Jade - Dodge City",
   description: "Les livestats des matchs de Jade.",
-   manifest: "/manifest.json",
+  manifest: "/manifest.json",
   appleWebApp: {
     title: "Jade LiveStats",
   },
@@ -56,10 +56,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-     <html lang="fr">
-       <Head>
+    <html lang="fr">
+      <Head>
         <link rel="icon" href="/favicon.ico" />
-         
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-title" content="Jade LiveStats" />
@@ -78,6 +77,9 @@ export default function RootLayout({
 
         {/* Analytics */}
         <Analytics />
+
+        {/* ✅ Enregistrement du Service Worker */}
+        <ServiceWorkerRegister />
       </body>
     </html>
   );
