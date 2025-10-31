@@ -1,6 +1,6 @@
 {
   "name": "Jade LiveStats",
-  "short_name": "Jade",
+  "short_name": "Jade LiveStats",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
