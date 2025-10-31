@@ -173,7 +173,7 @@ export default function JadeStats() {
     if (raw.includes('sub in') || raw.includes('sub out')) return null;
 
     const cleaned = raw
-      .replace(/by\s+shorna.*$/i, '')
+      .replace(/by\s+celerier.*$/i, '')
       .replace(/\s+/g, ' ')
       .trim();
 
