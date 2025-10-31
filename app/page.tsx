@@ -54,7 +54,7 @@ export default function JadeStats() {
   const matchLinks = [
     {
       name: 'Salt Lake',
-      url: '',
+      url: 'none',
     },
     //  {
     //   name: 'Salt Lake',
@@ -67,8 +67,8 @@ export default function JadeStats() {
 
  const handleGenerate = async () => {
   // 💡 Si aucun match sélectionné ou URL vide
-  if (!selectedMatch || selectedMatch.trim() === "") {
-    setModalMessage("Jade s’échauffe 🏀");
+  if (!selectedMatch || selectedMatch === 'none') {
+    setModalMessage("Jade s'échauffe 🏀");
     setIsModalOpen(true);
     return;
   }
@@ -220,10 +220,10 @@ export default function JadeStats() {
  <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
   <DialogContent className="w-[85%] max-w-sm rounded-2xl shadow-xl bg-white dark:bg-gray-800 p-8 text-center">
     <DialogHeader>
-      <DialogTitle className="text-2xl font-bold text-purple-700 mb-3">
-        Patiente 💜
+      <DialogTitle className="text-2xl text-center font-bold text-purple-700 mb-3">
+        Patiente ⌛
       </DialogTitle>
-      <DialogDescription className="text-lg text-gray-800 dark:text-gray-200">
+      <DialogDescription className="text-lg text-center text-gray-800 dark:text-gray-200">
         {modalMessage}
       </DialogDescription>
     </DialogHeader>
