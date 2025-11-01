@@ -53,7 +53,7 @@ export default function JadeStats() {
 
   const matchLinks = [
     {
-      name: 'Salt Lake',
+      name: 'Colorado',
       url: 'none',
     },
     //  {
