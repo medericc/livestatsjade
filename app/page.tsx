@@ -53,10 +53,11 @@ export default function JadeStats() {
 
   const matchLinks = [
     {
-      name: 'Colorado',
+      name: 'North Platte',
       url: 'none',
     },
-    //  {
+    // https://goconqs.com/boxscore.aspx?id=6361&path=wbball
+    // //  {
     //   name: 'Salt Lake',
     //   url: 'https://goconqs.com/sports/womens-basketball/stats/2024-25/western-texas-college/boxscore/5990',
     // },
