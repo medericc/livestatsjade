@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/table';
 
 interface RawActionRow extends Array<string> {
-  0: string; // period
-  1: string; // time
-  2: string; // action
+  0: string; // période
+  1: string; // chrono
+  2: string; // texte brut d'action
 }
 
 interface MatchTableProps {
@@ -26,31 +26,37 @@ export default function MatchTable({ data }: MatchTableProps) {
     console.log('📊 Données reçues par MatchTable:', data);
   }, [data]);
 
-  // 🧠 Fonction stricte : prend le texte brut et renvoie le libellé + statut
-  const traduireSmithAction = (texte: string): { action: string; statut: string } | null => {
+  // 🧠 Traduit le texte brut en action + statut
+  const traduireAction = (texte: string): { action: string; statut: string } | null => {
     const t = texte.toUpperCase();
 
-    if (!t.includes('CELERIER')) return null; // On ne garde que les actions de Destinee
+    if (!t.includes('CELERIER')) return null; // On ne garde que ses actions
 
-    if (t.includes('GOOD FT')) return { action: 'Lancer franc', statut: '✔️' };
-    if (t.includes('MISS FT')) return { action: 'Lancer franc', statut: '❌' };
+    // 🎯 Lancers francs
+    if (t.includes('MADE FREE THROW')) return { action: 'Lancer franc', statut: '✔️' };
+    if (t.includes('MISSED FREE THROW')) return { action: 'Lancer franc', statut: '❌' };
 
     // 🏀 Tir à 3 points
-    if (t.includes('GOOD 3PTR')) return { action: 'Tir à 3 pts', statut: '✔️' };
-    if (t.includes('MISS 3PTR')) return { action: 'Tir à 3 pts', statut: '❌' };
+    if (t.includes('MADE 3-PT')) return { action: 'Tir à 3', statut: '✔️' };
+    if (t.includes('MISSED 3-PT')) return { action: 'Tir à 3', statut: '❌' };
 
-  // ✅ Tir à 2 points : GOOD/MISS sans 3PT ni FT
-  if ((/GOOD|MISS/.test(t)) && !/3PT|FT/.test(t)) {
-    const statut = t.includes('GOOD') ? '✔️' : '❌';
-    return { action: 'Tir à 2 pts', statut };
-  }
+    // 🏀 Tir à 2 points
+    if (t.includes('MADE JUMP SHOT') || t.includes('MADE LAYUP'))
+      return { action: 'Tir à 2', statut: '✔️' };
+    if (t.includes('MISSED JUMP SHOT') || t.includes('MISSED LAYUP'))
+      return { action: 'Tir à 2', statut: '❌' };
+
+    // 🔄 Entrées / sorties
+    if (t.includes('ENTERS THE GAME')) return { action: 'Entrée', statut: '✔️' };
+    if (t.includes('GOES TO THE BENCH')) return { action: 'Sortie', statut: '❌' };
+
+    // 🧱 Autres actions
     if (t.includes('REBOUND')) return { action: 'Rebond', statut: '✔️' };
     if (t.includes('ASSIST')) return { action: 'Passe décisive', statut: '✔️' };
+    if (t.includes('STEAL')) return { action: 'Interception', statut: '✔️' };
     if (t.includes('TURNOVER')) return { action: 'Perte de balle', statut: '❌' };
+    if (t.includes('BLOCK')) return { action: 'Contre', statut: '✔️' };
     if (t.includes('FOUL')) return { action: 'Faute', statut: '❌' };
-
-    if (t.includes('SUB IN')) return { action: 'Entrée en jeu', statut: '✔️' };
-    if (t.includes('SUB OUT')) return { action: 'Sortie de jeu', statut: '✔️' };
 
     return null;
   };
@@ -72,34 +78,25 @@ export default function MatchTable({ data }: MatchTableProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                
-                 {data
+                {data
                   .filter((row) => row[0] === `${period}`)
                   .map((row, index) => {
-                    const texte = (row[2] || '').trim();  const actionSmith = traduireSmithAction(texte);
+                    const texte = (row[2] || '').trim();
+                    const trad = traduireAction(texte);
+                    if (!trad) return null;
+  if (['Entrée en jeu', 'Sortie de jeu', 'Faute'].includes(trad.action)) return null;
 
-                    if (!actionSmith) return null; // On ignore tout sauf SMITH
-
-                    const { action, statut } = actionSmith;
+                    const { action, statut } = trad;
+                    const statutColor =
+                      statut === '✔️' ? 'text-green-500 text-lg' : 'text-red-500 text-lg';
 
                     return (
                       <TableRow key={index}>
                         <TableCell className="text-center">{row[1]}</TableCell>
-                        {/* 🟢 Ici on affiche uniquement le texte traduit */}
                         <TableCell className="text-center font-medium text-white">
                           {action}
                         </TableCell>
-                        <TableCell className="text-center">
-                          <span
-                            className={
-                              statut === '✔️'
-                                ? 'text-green-500 text-lg'
-                                : 'text-red-500 text-lg'
-                            }
-                          >
-                            {statut}
-                          </span>
-                        </TableCell>
+                        <TableCell className={`text-center ${statutColor}`}>{statut}</TableCell>
                       </TableRow>
                     );
                   })}

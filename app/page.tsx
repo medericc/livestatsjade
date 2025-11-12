@@ -15,31 +15,64 @@ interface MatchAction {
   success?: string;
 }
 
-// 🗺️ Traductions des types d’action
+// 🗺️ Traductions des types d’action (avec toutes les variantes)
 const actionMapping: Record<string, string> = {
-  'good 2pt': 'Tir à 2 pts',
-  'miss 2pt': 'Tir à 2 pts',
-  'good layup': 'Tir à 2 pts',
-  'miss layup': 'Tir à 2 pts',
-  'good jumper': 'Tir à 2 pts',
-  'miss jumper': 'Tir à 2 pts',
-  'good dunk': 'Tir à 2 pts',
-  'miss dunk': 'Tir à 2 pts',
-  'good tip': 'Tir à 2 pts',
-  'miss tip': 'Tir à 2 pts',
-  'good hook': 'Tir à 2 pts',
-  'miss hook': 'Tir à 2 pts',
-  'good 3pt': 'Tir à 3 pts',
-  'miss 3pt': 'Tir à 3 pts',
-  'good ft': 'Lancer franc',
-  'miss ft': 'Lancer franc',
-  assist: 'Passe décisive',
-  rebound: 'Rebond',
-  turnover: 'Perte de balle',
-  steal: 'Interception',
-  block: 'Contre',
-  foul: 'Faute',
+  // 🔹 Tirs à 2 points
+  "made 2pt": "Tir à 2",
+  "missed 2pt": "Tir à 2",
+  "good 2pt": "Tir à 2",
+  "miss 2pt": "Tir à 2",
+
+  "made layup": "Tir à 2",
+  "missed layup": "Tir à 2",
+  "good layup": "Tir à 2",
+  "miss layup": "Tir à 2",
+
+  "made jumper": "Tir à 2",
+  "missed jumper": "Tir à 2",
+  "good jumper": "Tir à 2",
+  "miss jumper": "Tir à 2",
+
+  "made dunk": "Tir à 2",
+  "missed dunk": "Tir à 2",
+  "good dunk": "Tir à 2",
+  "miss dunk": "Tir à 2",
+
+  "made tip": "Tir à 2",
+  "missed tip": "Tir à 2",
+  "good tip": "Tir à 2",
+  "miss tip": "Tir à 2",
+
+  "made hook": "Tir à 2",
+  "missed hook": "Tir à 2",
+  "good hook": "Tir à 2",
+  "miss hook": "Tir à 2",
+
+  // 🔹 Tirs à 3 points
+  "made 3pt": "Tir à 3",
+  "missed 3pt": "Tir à 3",
+  "good 3pt": "Tir à 3",
+  "miss 3pt": "Tir à 3",
+  "made 3-pt": "Tir à 3",
+  "missed 3-pt": "Tir à 3",
+
+  // 🔹 Lancers francs
+  "made ft": "Lancer Franc",
+  "missed ft": "Lancer Franc",
+  "good ft": "Lancer Franc",
+  "miss ft": "Lancer Franc",
+  "made free throw": "Lancer Franc",
+  "missed free throw": "Lancer Franc",
+
+  // 🔹 Autres actions
+  assist: "Assist",
+  rebound: "Rebond",
+  turnover: "Turnover",
+  steal: "Steal",
+  block: "Block",
+  foul: "Faute",
 };
+
 
 
 
@@ -51,18 +84,14 @@ export default function JadeStats() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
-  const matchLinks = [
+   const matchLinks = [
     {
       name: 'North Platte',
-      url: 'none',
+      url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251111_bcxa.xml?view=plays',
     },
-    // https://goconqs.com/boxscore.aspx?id=6361&path=wbball
-    // //  {
-    //   name: 'Salt Lake',
-    //   url: 'https://goconqs.com/sports/womens-basketball/stats/2024-25/western-texas-college/boxscore/5990',
-    // },
-  
+   
   ];
+
 
   const handleMatchSelect = (value: string) => setSelectedMatch(value);
 
@@ -83,7 +112,7 @@ export default function JadeStats() {
 
     // On filtre uniquement les actions de Shorna
     const smithActions = (json.actions || [])
-      .filter((a: MatchAction) => a.action.toLowerCase().includes('shorna'))
+      .filter((a: MatchAction) => a.action.toLowerCase().includes('celerier'))
       .filter((a: MatchAction) => !a.action.toLowerCase().includes('substitution'));
 
     const formatted: MatchAction[] = smithActions.map((a: MatchAction) => {
@@ -166,41 +195,53 @@ export default function JadeStats() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                   {actions
+                  {actions
   .filter((row) => row.period === `${period}`)
   .filter((row) => !row.action.toLowerCase().includes('substitution'))
   .map((row, index) => {
     const raw = (row.action || '').toLowerCase();
-    if (raw.includes('sub in') || raw.includes('sub out')) return null;
 
+    // 💬 Nettoyage du texte
     const cleaned = raw
-      .replace(/by\s+celerier.*$/i, '')
-      .replace(/\s+/g, ' ')
+      .replace(/celerier.*?(made|missed|goes|enters|assist|turnover|foul|rebound|steal|block)/i, '$1')
       .trim();
 
+    // 🎯 Détection du type d’action
     const foundKey = Object.keys(actionMapping).find((key) => cleaned.includes(key));
-    const displayAction = foundKey ? actionMapping[foundKey] : row.action;
-    const isSuccess = cleaned.includes('good');
-    const isMiss = cleaned.includes('miss');
-    let status = '';
 
-    if (isSuccess) status = '✔️';
-    else if (isMiss) status = '❌';
-    else if (['turnover', 'foul'].some((k) => cleaned.includes(k))) status = '❌';
-    else status = '✔️';
+    // 🏷️ Libellé en français
+    const displayAction = foundKey ? actionMapping[foundKey] : (() => {
+      if (cleaned.includes('enters')) return 'Entrée en jeu';
+      if (cleaned.includes('goes')) return 'Sortie de jeu';
+      if (cleaned.includes('assist')) return 'Passe décisive';
+      if (cleaned.includes('rebound')) return 'Rebond';
+      if (cleaned.includes('turnover')) return 'Perte de balle';
+      if (cleaned.includes('steal')) return 'Interception';
+      if (cleaned.includes('foul')) return 'Faute';
+      return cleaned;
+    })();
+
+    // ✅ Statut réussite / échec
+    const isSuccess =
+      cleaned.includes('made') || cleaned.includes('good') || cleaned.includes('assist') ||
+      cleaned.includes('rebound') || cleaned.includes('steal') || cleaned.includes('block') ||
+      cleaned.includes('enters') || cleaned.includes('goes');
+    const isMiss =
+      cleaned.includes('missed') || cleaned.includes('turnover') || cleaned.includes('foul');
+
+    const status = isSuccess ? '✔️' : isMiss ? '❌' : '';
+    const statusColor =
+      status === '✔️' ? 'text-green-500' : status === '❌' ? 'text-red-500' : 'text-gray-500';
 
     return (
       <TableRow key={index}>
         <TableCell className="text-center">{row.time}</TableCell>
         <TableCell className="text-center">{displayAction}</TableCell>
-        <TableCell className="text-center">
-          <span className={status === '✔️' ? 'text-green-500' : 'text-red-500'}>
-            {status}
-          </span>
-        </TableCell>
+        <TableCell className={`text-center ${statusColor}`}>{status}</TableCell>
       </TableRow>
     );
   })}
+
 
                     </TableBody>
                   </Table>

@@ -1,41 +1,45 @@
 import { NextResponse } from "next/server";
 import * as cheerio from "cheerio";
+
 interface Play {
   period: string;
   time: string;
   action: string;
 }
 
-// --- ta fonction de parsing, inchangée ---
-async function parsePlays(html: string) {
-  const $ = cheerio.load(html);
+// 🧩 Parsing du XML PrestoSports
+async function parsePlays(xml: string): Promise<Play[]> {
+  const $ = cheerio.load(xml);
   const plays: Play[] = [];
 
+  let currentPeriod = "1";
 
-  // 🧱 Parcours explicite des div#period-x
-  for (let i = 1; i <= 4; i++) {
-    const panel = $(`#period-${i}`);
-    if (!panel.length) continue;
+  // Chaque table représente souvent une période
+  $("table").each((_, table) => {
+    const caption = $(table).find("caption").text().trim();
+    if (caption) {
+      const num = caption.match(/\d+/);
+      if (num) currentPeriod = num[0];
+    }
 
-    const caption = panel.find("caption").text().trim().toUpperCase();
-    console.log(`🎯 Détection: #period-${i} → ${caption || "(vide)"}`);
+    // Parcourt chaque ligne de jeu
+    $(table)
+      .find("tr.row")
+      .each((_, tr) => {
+        const time = $(tr).find("td.time").text().trim();
+        const actionText = $(tr).find("td.play .text").text().trim();
 
-    const period = `${i}`; // on se base sur l’ID, fiable à 100 %
+        if (!time || !actionText) return;
 
-    panel.find("tbody tr").each((_, tr) => {
-      const tds = $(tr).find("td");
-      const time = $(tds[0]).text().trim();
-      const leftAction = $(tds[1]).text().trim();
-      const rightAction = $(tds[5]).text().trim();
-      const action = leftAction || rightAction;
+        plays.push({
+          period: currentPeriod,
+          time,
+          action: actionText,
+        });
+      });
+  });
 
-      if (!time || !action || time === "--" || action === "") return;
-
-      plays.push({ period, time, action });
-    });
-  }
-
-  // 🧹 Tri
+  // 🧹 Tri : par période puis par temps croissant
   const toSeconds = (t: string) => {
     const [m, s] = t.split(":").map(Number);
     return m * 60 + s;
@@ -43,17 +47,15 @@ async function parsePlays(html: string) {
   plays.sort((a, b) => {
     const pOrder = parseInt(a.period) - parseInt(b.period);
     if (pOrder !== 0) return pOrder;
-    return toSeconds(a.time) - toSeconds(b.time);
+    return toSeconds(b.time) - toSeconds(a.time); // plus grand chrono d'abord
   });
-
-  console.log("✅ Plays finaux:", plays.slice(0, 10));
-  console.log(`📦 Total: ${plays.length}`);
 
   return plays;
 }
 
+// 🌍 API route
+export const dynamic = "force-dynamic";
 
-// --- la route API Next.js ---
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -63,18 +65,18 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Missing URL" }, { status: 400 });
     }
 
-    console.log("🌍 Fetching:", matchUrl);
-    const res = await fetch(matchUrl);
-    const html = await res.text();
+    console.log("🔗 Fetch:", matchUrl);
+    const res = await fetch(matchUrl, { cache: "no-store" });
+    const xml = await res.text();
 
-    const actions = await parsePlays(html);
-    console.log(`✅ ${actions.length} actions trouvées.`);
+    const actions = await parsePlays(xml);
 
+    console.log(`✅ ${actions.length} actions trouvées`);
     return NextResponse.json({ actions });
   } catch (err) {
     console.error("❌ Erreur backend:", err);
     return NextResponse.json(
-      { error: "Scraping failed or bad HTML" },
+      { error: "Scraping failed or bad XML structure" },
       { status: 500 }
     );
   }
