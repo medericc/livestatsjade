@@ -233,13 +233,18 @@ export default function JadeStats() {
     const statusColor =
       status === '✔️' ? 'text-green-500' : status === '❌' ? 'text-red-500' : 'text-gray-500';
 
-    return (
+   return (
+  // 🚫 On saute les lignes inutiles
+  ['Entrée en jeu', 'Sortie de jeu', 'Faute'].includes(displayAction)
+    ? null
+    : (
       <TableRow key={index}>
         <TableCell className="text-center">{row.time}</TableCell>
         <TableCell className="text-center">{displayAction}</TableCell>
         <TableCell className={`text-center ${statusColor}`}>{status}</TableCell>
       </TableRow>
-    );
+    )
+);
   })}
 
 
