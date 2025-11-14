@@ -85,6 +85,10 @@ export default function JadeStats() {
   const [modalMessage, setModalMessage] = useState('');
 
    const matchLinks = [
+     {
+      name: 'Trinitad State',
+      url: 'none',
+    },
     {
       name: 'North Platte',
       url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251111_bcxa.xml?view=plays',
@@ -265,12 +269,12 @@ export default function JadeStats() {
 
       {/* Modal d’erreur */}
  <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-  <DialogContent className="w-[85%] max-w-sm rounded-2xl shadow-xl bg-white dark:bg-gray-800 p-8 text-center">
+  <DialogContent className="w-[85%] max-w-sm rounded-2xl shadow-xl bg-white p-8 text-center">
     <DialogHeader>
       <DialogTitle className="text-2xl text-center font-bold text-purple-700 mb-3">
         Patiente ⌛
       </DialogTitle>
-      <DialogDescription className="text-lg text-center text-gray-800 dark:text-gray-200">
+      <DialogDescription className="text-lg text-center text-gray-800 ">
         {modalMessage}
       </DialogDescription>
     </DialogHeader>
