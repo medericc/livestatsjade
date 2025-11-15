@@ -85,10 +85,10 @@ export default function JadeStats() {
   const [modalMessage, setModalMessage] = useState('');
 
    const matchLinks = [
-     {
-      name: 'Trinitad State',
-      url: 'none',
-    },
+    //  {
+    //   name: 'Trinitad State',
+    //   url: 'none',
+    // },
     {
       name: 'North Platte',
       url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251111_bcxa.xml?view=plays',
