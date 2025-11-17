@@ -85,10 +85,14 @@ export default function JadeStats() {
   const [modalMessage, setModalMessage] = useState('');
 
    const matchLinks = [
-    //  {
-    //   name: 'Trinitad State',
-    //   url: 'none',
-    // },
+
+// https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251114_f343.xml?view=plays
+//     // https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251114_f343.xml?view=plays
+    //  
+    {
+      name: 'Barton Sport',
+      url: 'none',
+    },
     {
       name: 'North Platte',
       url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251111_bcxa.xml?view=plays',
