@@ -91,7 +91,7 @@ export default function JadeStats() {
     //  
     {
       name: 'Barton Sport',
-      url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251114_f343.xml?view=plays',
+      url: 'https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251119_90mc.xml?view=plays',
     },
     {
       name: 'North Platte',
