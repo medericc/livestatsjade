@@ -120,7 +120,13 @@ export default function JadeStats() {
 
     // On filtre uniquement les actions de Shorna
     const smithActions = (json.actions || [])
-      .filter((a: MatchAction) => a.action.toLowerCase().includes('celerier'))
+    .filter((a: MatchAction) =>
+  a.action
+    .normalize('NFD')               // enlève les accents
+    .replace(/[\u0300-\u036f]/g, '') 
+    .toLowerCase()
+    .includes('celerier')
+)
       .filter((a: MatchAction) => !a.action.toLowerCase().includes('substitution'));
 
     const formatted: MatchAction[] = smithActions.map((a: MatchAction) => {
