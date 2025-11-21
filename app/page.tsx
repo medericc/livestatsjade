@@ -88,7 +88,8 @@ export default function JadeStats() {
 
 // https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251114_f343.xml?view=plays
 //     // https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251114_f343.xml?view=plays
-    //  
+    // 
+     { name: 'Cowley County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251122_v2a7.xml?view=plays', },
     {
       name: 'Barton Sport',
       url: 'https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251119_90mc.xml?view=plays',
@@ -103,8 +104,7 @@ export default function JadeStats() {
 
   const handleMatchSelect = (value: string) => setSelectedMatch(value);
 
- const handleGenerate = async () => {
-  // 💡 Si aucun match sélectionné ou URL vide
+const handleGenerate = async () => {
   if (!selectedMatch || selectedMatch === 'none') {
     setModalMessage("Jade s'échauffe 🏀");
     setIsModalOpen(true);
@@ -112,21 +112,36 @@ export default function JadeStats() {
   }
 
   setLoading(true);
+
   try {
     const res = await fetch(`/api/play-analysis?url=${encodeURIComponent(selectedMatch)}`);
+
+    // ⛔ Erreur HTTP → modale
+    if (!res.ok) {
+      throw new Error(`Erreur HTTP : ${res.status}`);
+    }
+
     const json = await res.json();
     console.log("📦 Réponse brute du backend:", json);
-    if (json.error) throw new Error(json.error);
 
-    // On filtre uniquement les actions de Shorna
+    // ⛔ Backend renvoie erreur → modale
+    if (json.error) {
+      throw new Error(json.error);
+    }
+
+    // ⛔ Aucune action trouvée → modale
+    if (!json.actions || json.actions.length === 0) {
+      throw new Error("Aucune donnée trouvée pour ce match");
+    }
+
     const smithActions = (json.actions || [])
-    .filter((a: MatchAction) =>
-  a.action
-    .normalize('NFD')               // enlève les accents
-    .replace(/[\u0300-\u036f]/g, '') 
-    .toLowerCase()
-    .includes('celerier')
-)
+      .filter((a: MatchAction) =>
+        a.action
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .includes('celerier')
+      )
       .filter((a: MatchAction) => !a.action.toLowerCase().includes('substitution'));
 
     const formatted: MatchAction[] = smithActions.map((a: MatchAction) => {
@@ -146,14 +161,16 @@ export default function JadeStats() {
     });
 
     setActions(formatted);
-  } catch (err) {
+
+  } catch (err: unknown) {
     console.error(err);
-    setModalMessage('Erreur de récupération des données 😢');
+    setModalMessage("Jade s'échauffe 🏀");
     setIsModalOpen(true);
   } finally {
     setLoading(false);
   }
 };
+
 
 
   return (
