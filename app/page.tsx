@@ -89,8 +89,9 @@ export default function JadeStats() {
 // https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251114_f343.xml?view=plays
 //     // https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251114_f343.xml?view=plays
     // 
-   { name: 'Cloud County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251129_sn7z.xml?view=plays', },
-    { name: 'Cowley County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251122_v2a7.xml?view=plays', },
+  
+  { name: 'Colby CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251203_cv1p.xml?view=plays', },
+   { name: 'Cowley County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251122_v2a7.xml?view=plays', },
     {
       name: 'Barton Sport',
       url: 'https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251119_90mc.xml?view=plays',
