@@ -89,6 +89,25 @@ export default function JadeStats() {
 // https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251114_f343.xml?view=plays
 //     // https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251114_f343.xml?view=plays
     // 
+
+
+// 60 jours
+//   { name: 'Seward County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260304_0gi5.xml?view=plays', },
+//  46 jurs
+//   { name: 'Fort Hays Tech', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260218_bupj.xml?view=plays', },
+//  42 jours
+//   { name: 'Prat CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260214_uu67.xml?view=plays', },
+//  22 jours
+//   { name: 'Cowley CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260125_w7us.xml?view=plays', },
+//  11 jours
+//   { name: 'Independence CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260114_sj4f.xml?view=plays', },
+ 
+// 7 jours
+//   { name: 'Butler CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260110_rmof.xml?view=plays', },
+ 
+
+
+
     { name: 'Prat CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251213_0x7x.xml?view=plays', },
  
   { name: 'Colby CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251203_cv1p.xml?view=plays', },
