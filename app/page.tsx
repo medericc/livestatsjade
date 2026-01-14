@@ -100,7 +100,7 @@ export default function JadeStats() {
 //  22 jours
 //   { name: 'Cowley CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260125_w7us.xml?view=plays', },
 //  11 jours
-//   { name: 'Independence CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260114_sj4f.xml?view=plays', },
+  { name: 'Independence CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260114_sj4f.xml?view=plays', },
  
 
   { name: 'Butler CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260110_rmof.xml?view=plays', },
