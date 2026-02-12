@@ -91,13 +91,13 @@ export default function JadeStats() {
     // 
 
 
-// 60 jours
+// 3 mars
 //   { name: 'Seward County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260304_0gi5.xml?view=plays', },
-//  46 jurs
+//  18/02
 //   { name: 'Fort Hays Tech', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260218_bupj.xml?view=plays', },
-//  42 jours
-//   { name: 'Prat CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260214_uu67.xml?view=plays', },
-//  22 jours
+
+ { name: 'Prat CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260214_uu67.xml?view=plays', },
+
   { name: 'Cowley CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260126_w7us.xml?view=plays', },
 
   { name: 'Independence CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260114_sj4f.xml?view=plays', },
