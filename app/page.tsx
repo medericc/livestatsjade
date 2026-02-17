@@ -86,15 +86,11 @@ export default function JadeStats() {
 
    const matchLinks = [
 
-// https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251114_f343.xml?view=plays
-//     // https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251114_f343.xml?view=plays
-    // 
-
 
 // 3 mars
 //   { name: 'Seward County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260304_0gi5.xml?view=plays', },
-//  18/02
-//   { name: 'Fort Hays Tech', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260218_bupj.xml?view=plays', },
+
+  { name: 'Fort Hays Tech', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260218_bupj.xml?view=plays', },
 
  { name: 'Prat CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260214_uu67.xml?view=plays', },
 
