@@ -116,7 +116,7 @@ export default function JadeStats() {
  
 
  
-  { name: 'Seward County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260117_17.xml?view=plays', },
+  { name: 'Seward County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260117_17rj.xml?view=plays', },
  
 
  
@@ -124,7 +124,7 @@ export default function JadeStats() {
  { name: 'Independence CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260114_sj4f.xml?view=plays', },
  
 
-  { name: 'Butler CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260110_rmof.xml?view=plays', },
+  // { name: 'Butler CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260110_rmof.xml?view=plays', },
  
 
   { name: 'Garden City', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260107_346h.xml?view=plays', },
