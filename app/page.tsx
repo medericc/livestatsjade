@@ -173,10 +173,10 @@ export default function JadeStats() {
       url: 'https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251115_cskl.xml?view=plays',
     },
    
-   {
-      name: 'Trinidad',
-      url: 'https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251114_48he.xml?view=plays',
-    },
+  //  {
+  //     name: 'Trinidad',
+  //     url: 'https://www.bartonsports.com/sports/wbkb/2025-26/boxscores/20251114_48he.xml?view=plays',
+  //   },
     {
       name: 'North Platte',
       url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251111_bcxa.xml?view=plays',
