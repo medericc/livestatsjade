@@ -87,8 +87,8 @@ export default function JadeStats() {
    const matchLinks = [
 
 
-// 3 mars
-//   { name: 'Seward County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260304_0gi5.xml?view=plays', },
+
+  { name: 'Seward County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260304_0gi5.xml?view=plays', },
 
 { name: 'Butler CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260225_guv5.xml?view=plays', },
 { name: 'Garden CCC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260221_v4cv.xml?view=plays', },
@@ -98,39 +98,39 @@ export default function JadeStats() {
 
   { name: 'Fort Hays Tech', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260218_bupj.xml?view=plays', },
 
- { name: 'Prat CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260214_uu67.xml?view=plays', },
+//  { name: 'Prat CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260214_uu67.xml?view=plays', },
 
  
- { name: 'Hutchinson CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260211_6lpg.xml?view=plays', },
-  { name: 'Coffeyville CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260207_n312.xml?view=plays', },
- { name: 'Colby  CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260204_7gge.xml?view=plays', },
+//  { name: 'Hutchinson CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260211_6lpg.xml?view=plays', },
+//   { name: 'Coffeyville CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260207_n312.xml?view=plays', },
+//  { name: 'Colby  CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260204_7gge.xml?view=plays', },
 
- 
-
- 
-  { name: 'Cloud CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260131_d86y.xml?view=plays', },
-
- { name: 'Cowley CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260126_w7us.xml?view=plays', },
-
-  { name: 'Barton CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260121_xqc6.xml?view=plays', },
  
 
  
-  { name: 'Seward County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260117_17rj.xml?view=plays', },
+//   { name: 'Cloud CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260131_d86y.xml?view=plays', },
+
+//  { name: 'Cowley CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260126_w7us.xml?view=plays', },
+
+//   { name: 'Barton CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260121_xqc6.xml?view=plays', },
+ 
+
+ 
+//   { name: 'Seward County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260117_17rj.xml?view=plays', },
  
 
  
  
- { name: 'Independence CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260114_sj4f.xml?view=plays', },
+//  { name: 'Independence CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260114_sj4f.xml?view=plays', },
  
 
   // { name: 'Butler CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260110_rmof.xml?view=plays', },
  
 
-  { name: 'Garden City', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260107_346h.xml?view=plays', },
+  // { name: 'Garden City', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260107_346h.xml?view=plays', },
  
 
-  { name: 'Fort Hays', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260103_yhqo.xml?view=plays', },
+  // { name: 'Fort Hays', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20260103_yhqo.xml?view=plays', },
  
 
 
@@ -140,24 +140,24 @@ export default function JadeStats() {
 
 
 
-    { name: 'Prat CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251213_0x7x.xml?view=plays', },
+  //   { name: 'Prat CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251213_0x7x.xml?view=plays', },
  
-   { name: 'Hutchinson CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251210_6fre.xml?view=plays', },
+  //  { name: 'Hutchinson CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251210_6fre.xml?view=plays', },
   
-    { name: 'Coffeyville CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251206_cyxp.xml?view=plays', },
+  //   { name: 'Coffeyville CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251206_cyxp.xml?view=plays', },
   
   
  
  
-    { name: 'Colby CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251203_cv1p.xml?view=plays', },
+  //   { name: 'Colby CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251203_cv1p.xml?view=plays', },
   
   
   
-   { name: 'Cloud CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251129_sn7z.xml?view=plays', },
+  //  { name: 'Cloud CC', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251129_sn7z.xml?view=plays', },
   
   
   
-  { name: 'Cowley County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251122_v2a7.xml?view=plays', },
+  // { name: 'Cowley County', url: 'https://njcaastats.prestosports.com/sports/wbkb/2025-26/div1/boxscores/20251122_v2a7.xml?view=plays', },
     
    
    
