@@ -67,10 +67,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white`}
       >
-        {/* 🔴 Bandeau LIVESTATS */}
-        <header className="bg-linear-to-r from-purple-700 to-purple-800 text-white p-8 text-4xl font-extrabold text-center shadow-md tracking-wider">
-          LIVESTATS
-        </header>
+   
 
         {/* Contenu principal */}
         <main className="container mx-auto mt-4">{children}</main>
